@@ -39,7 +39,7 @@ oildrill-frontend/
 
 ## 🚀 Getting Started
 
-### 1. Prerequisite
+### 1. Prerequisites
 - **Node.js**: `v18+` or `v20+`
 - **Python**: `v3.10+`
 
@@ -49,39 +49,21 @@ cd frontend
 npm install
 npm run dev
 ```
-Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ### 3. Backend Setup
 ```bash
 cd backend
 python -m venv venv
+
 # On Windows:
 venv\Scripts\activate
+
 # On Linux/macOS:
 source venv/bin/activate
 
 pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8000
+uvicorn app.main:app --reload
 ```
-
----
-
-## 🔐 Environment Setup
-
-Both `frontend` and `backend` contain `.env.example` templates. 
-
-- **Frontend Environment**:
-  Copy `frontend/.env.example` to `frontend/.env`:
-  ```env
-  VITE_API_BASE_URL=http://127.0.0.1:8000
-  ```
-
-- **Backend Environment**:
-  Copy `backend/.env.example` to `backend/.env`:
-  ```env
-  DATABASE_URL=postgresql://postgres:password@localhost:5432/gisdb
-  CORS_ORIGINS=http://localhost:5173,http://localhost:5174
-  ```
 
 ---
 
