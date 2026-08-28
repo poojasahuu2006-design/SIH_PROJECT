@@ -1,0 +1,105 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--panel);
+  border-right: 1px solid var(--hairline);
+}
+
+.sidebar__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.sidebar__count {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  color: var(--steel);
+}
+
+.sidebar__search {
+  margin: 12px 14px;
+  padding: 8px 10px;
+  background: var(--panel-raised);
+  border: 1px solid var(--hairline);
+  border-radius: 3px;
+  color: var(--bone);
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+}
+
+.sidebar__search:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 1px;
+}
+
+.sidebar__status {
+  padding: 8px 16px;
+  font-family: "Inter", sans-serif;
+  font-size: 12.5px;
+  color: var(--steel);
+}
+
+.sidebar__status--error {
+  color: var(--red);
+}
+
+.sidebar__list {
+  list-style: none;
+  margin: 0;
+  padding: 0 8px 12px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.sidebar__item {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 8px;
+  text-align: left;
+  padding: 9px 10px;
+  margin-bottom: 2px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.sidebar__item:hover {
+  background: var(--panel-raised);
+}
+
+.sidebar__item.is-selected {
+  background: rgba(242, 169, 59, 0.1);
+  border-color: var(--amber);
+}
+
+.sidebar__item-name {
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--bone);
+  grid-column: 1;
+}
+
+.sidebar__item-id {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10.5px;
+  color: var(--steel);
+  grid-column: 2;
+  align-self: baseline;
+}
+
+.sidebar__item-status {
+  grid-column: 1 / -1;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--teal);
+}

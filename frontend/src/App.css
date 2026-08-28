@@ -1,0 +1,27 @@
+.app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app__body {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 260px 1fr 340px;
+}
+
+.app__full-view {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+@media (max-width: 960px) {
+  .app__body {
+    grid-template-columns: 220px 1fr;
+  }
+  .app__body > :last-child {
+    display: none;
+  }
+}

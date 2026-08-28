@@ -1,0 +1,59 @@
+:root {
+  --bg: #10161a;
+  --panel: #161e22;
+  --panel-raised: #1b2328;
+  --hairline: #2e3a40;
+  --bone: #e7e4da;
+  --steel: #8a979c;
+  --amber: #f2a93b;
+  --teal: #3fbf9e;
+  --red: #e85c4a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--bone);
+  font-family: "Inter", -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.eyebrow {
+  display: block;
+  font-family: "Inter", sans-serif;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.mono {
+  font-family: "JetBrains Mono", monospace;
+}
+
+button {
+  font-family: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--hairline);
+  border-radius: 4px;
+}

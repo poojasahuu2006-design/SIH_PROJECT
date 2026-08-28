@@ -1,0 +1,132 @@
+.map-view {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.map-view__container {
+  height: 100%;
+  width: 100%;
+  background: var(--bg);
+}
+
+.map-view__tooltip {
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+}
+
+.leaflet-container {
+  font-family: "Inter", sans-serif;
+}
+
+.leaflet-tooltip {
+  background: var(--panel-raised, #1e242d);
+  border: 1px solid var(--hairline, rgba(255, 255, 255, 0.12));
+  color: var(--bone, #e7e4da);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.leaflet-tooltip-top:before {
+  border-top-color: var(--hairline, rgba(255, 255, 255, 0.12));
+}
+
+.map-view__tooltip-box {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.map-view__tooltip-title {
+  font-weight: 600;
+  font-size: 13px;
+  color: #ffffff;
+}
+
+.map-view__tooltip-sub {
+  font-family: monospace;
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.map-view__tooltip-status {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.map-view__radius-tag {
+  font-family: monospace;
+  font-size: 11px;
+  color: #3fbf9e;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.map-view__offset-line-tag {
+  font-family: monospace;
+  font-size: 11px;
+  color: #f2a93b;
+  font-weight: 600;
+}
+
+.map-view__legend {
+  position: absolute;
+  bottom: 18px;
+  left: 18px;
+  z-index: 1000;
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+
+.legend-title {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #94a3b8;
+}
+
+.legend-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: #e2e8f0;
+  font-weight: 500;
+}
+
+.legend-item .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.map-view__empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  color: var(--steel);
+  pointer-events: none;
+}
+

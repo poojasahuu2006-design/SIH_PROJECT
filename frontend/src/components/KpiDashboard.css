@@ -1,0 +1,331 @@
+.kpi-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
+  background: var(--bg);
+  color: var(--bone);
+  overflow-y: auto;
+  height: 100%;
+}
+
+.kpi-dashboard__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  border-bottom: 1px solid var(--hairline);
+  padding-bottom: 20px;
+}
+
+.kpi-dashboard__header h2 {
+  font-family: "Oswald", sans-serif;
+  font-size: 24px;
+  margin: 4px 0;
+}
+
+.sub-text {
+  font-size: 13px;
+  color: var(--steel);
+  margin: 0;
+}
+
+.field-risk-gauge-box {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--panel);
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: 1px solid var(--hairline);
+}
+
+.gauge-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 3px solid var(--red);
+  box-shadow: 0 0 14px rgba(232, 92, 74, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--panel-raised);
+}
+
+.gauge-num {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--red);
+}
+
+.gauge-sub {
+  font-size: 9px;
+  text-transform: uppercase;
+  color: var(--steel);
+}
+
+.gauge-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.gauge-status {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--red);
+  letter-spacing: 0.04em;
+}
+
+.gauge-desc {
+  font-size: 11px;
+  color: var(--steel);
+}
+
+/* Metrics Grid */
+.kpi-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.kpi-card {
+  background: var(--panel);
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-accent-blue {
+  border-top: 3px solid #3b82f6;
+}
+
+.card-accent-red {
+  border-top: 3px solid var(--red);
+}
+
+.card-accent-teal {
+  border-top: 3px solid var(--teal);
+}
+
+.card-accent-amber {
+  border-top: 3px solid var(--amber);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-title {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--steel);
+  font-weight: 600;
+}
+
+.card-icon {
+  font-size: 18px;
+}
+
+.card-val {
+  font-size: 28px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.unit {
+  font-size: 14px;
+  color: var(--steel);
+  font-weight: 400;
+}
+
+.card-foot {
+  font-size: 11.5px;
+  color: var(--steel);
+}
+
+.text-red {
+  color: var(--red);
+  font-weight: 700;
+}
+
+.text-teal {
+  color: var(--teal);
+  font-weight: 700;
+}
+
+/* Two Column Layout */
+.kpi-grid-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 1000px) {
+  .kpi-grid-two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+.kpi-box {
+  background: var(--panel);
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.kpi-box-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: 11px;
+  color: var(--steel);
+}
+
+/* Risk Matrix Table */
+.risk-matrix-table {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.matrix-header {
+  display: grid;
+  grid-template-columns: 110px 1fr 1fr 1fr;
+  gap: 8px;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  color: var(--steel);
+  font-weight: 700;
+  text-align: center;
+}
+
+.matrix-row {
+  display: grid;
+  grid-template-columns: 110px 1fr 1fr 1fr;
+  gap: 8px;
+  align-items: center;
+}
+
+.row-label {
+  font-size: 11px;
+  color: var(--steel);
+  font-weight: 600;
+}
+
+.matrix-cell {
+  background: var(--panel-raised);
+  border: 1px solid var(--hairline);
+  padding: 12px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  text-align: center;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.cell-low {
+  background: rgba(63, 191, 158, 0.1);
+  border-color: rgba(63, 191, 158, 0.3);
+  color: var(--teal);
+}
+
+.cell-med {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.4);
+  color: #60a5fa;
+}
+
+.cell-high {
+  background: rgba(242, 169, 59, 0.15);
+  border-color: rgba(242, 169, 59, 0.4);
+  color: var(--amber);
+}
+
+.cell-critical {
+  background: rgba(232, 92, 74, 0.2);
+  border-color: rgba(232, 92, 74, 0.6);
+  color: var(--red);
+  font-weight: 700;
+  box-shadow: 0 0 8px rgba(232, 92, 74, 0.3);
+}
+
+/* Wells Rank List */
+.wells-rank-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.well-rank-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--panel-raised);
+  border: 1px solid var(--hairline);
+  padding: 12px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.well-rank-item:hover {
+  background: var(--hairline);
+}
+
+.rank-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.well-rank-name {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--bone);
+}
+
+.well-rank-desc {
+  font-size: 11px;
+  color: var(--steel);
+}
+
+.score-tag {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+.score-tag.is-critical {
+  background: var(--red);
+  color: #fff;
+}
+
+.score-tag.is-high {
+  background: var(--amber);
+  color: #10161a;
+}
+
+.score-tag.is-med {
+  background: #3b82f6;
+  color: #fff;
+}
