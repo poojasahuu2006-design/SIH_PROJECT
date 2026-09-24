@@ -13,6 +13,7 @@ export default function ConsoleHeader({
     { id: "kpis", label: "KPIs & Risk Matrix", icon: "📊" },
     { id: "charts", label: "Parameter Trends", icon: "📈" },
     { id: "pressure", label: "Pore Pressure & Offsets", icon: "🛡️" },
+    { id: "historical", label: "Historical Intelligence", icon: "📚" },
   ];
 
   return (

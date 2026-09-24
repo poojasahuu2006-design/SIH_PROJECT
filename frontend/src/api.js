@@ -217,6 +217,34 @@ async function request(baseUrl, path) {
   return res.json();
 }
 
+async function requestJson(baseUrl, path, options = {}) {
+  const url = `${baseUrl.replace(/\/$/, "")}${path}`;
+  const res = await fetch(url, { ...options, headers: { Accept: "application/json", ...(options.headers || {}) } });
+  if (!res.ok) {
+    const body = await res.text().catch(() => "");
+    throw new ApiError(`${res.status} ${res.statusText} on ${path}${body ? ` — ${body}` : ""}`, { status: res.status });
+  }
+  return res.json();
+}
+
+export function fetchHistoricalReports(baseUrl) {
+  return request(baseUrl, "/api/reports");
+}
+
+export function uploadHistoricalReport(baseUrl, file) {
+  const form = new FormData();
+  form.append("file", file);
+  return requestJson(baseUrl, "/api/reports/upload", { method: "POST", body: form });
+}
+
+export function askHistoricalReports(baseUrl, question) {
+  return requestJson(baseUrl, "/api/reports/ask", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ question }),
+  });
+}
+
 const LAND_COORDINATES = [
   { lat: 19.2150, lon: 73.1300 }, // W001 / Offset-01 (Kalyan East land)
   { lat: 19.1800, lon: 73.2000 }, // W002 / Offset-02 (Badlapur land)

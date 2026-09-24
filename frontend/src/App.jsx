@@ -7,6 +7,7 @@ import PredictiveAlertsPanel from "./components/PredictiveAlertsPanel";
 import ParameterCharts from "./components/ParameterCharts";
 import KpiDashboard from "./components/KpiDashboard";
 import RiskMatrixDashboard from "./components/RiskMatrixDashboard";
+import HistoricalReportsPanel from "./components/HistoricalReportsPanel";
 import {
   fetchWellsGeoJSON,
   fetchWellSummary,
@@ -184,6 +185,8 @@ export default function App() {
           <RiskMatrixDashboard wells={features} />
         </div>
       )}
+
+      {activeView === "historical" && <HistoricalReportsPanel baseUrl={baseUrl} />}
     </div>
   );
 }

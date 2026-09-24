@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import os
 
 from .database import engine, Base
-from .routes import wells, events, drilling
+from .routes import wells, events, drilling, reports
 
 load_dotenv()
 
@@ -33,6 +33,7 @@ app.add_middleware(
 app.include_router(wells.router, prefix="/api", tags=["Wells"])
 app.include_router(events.router, prefix="/api", tags=["Drilling Events"])
 app.include_router(drilling.router, prefix="/api", tags=["Drilling Data"])
+app.include_router(reports.router, prefix="/api", tags=["Historical Reports Intelligence"])
 
 @app.get("/")
 def read_root():

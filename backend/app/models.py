@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Float, Date, Enum, ForeignKey, Text, DateTime, Integer
+from sqlalchemy import Column, String, Float, Date, Enum, ForeignKey, Text, DateTime, Integer, JSON
 from sqlalchemy.orm import relationship
 from geoalchemy2 import Geometry
 from .database import Base
@@ -159,3 +159,35 @@ class DrillingData(Base):
     activity_code = Column(Enum(ActivityCode), nullable=True)
 
     well = relationship("Well", back_populates="drilling_data")
+
+
+class HistoricalReport(Base):
+    __tablename__ = "historical_reports"
+
+    id = Column(Integer, primary_key=True, index=True)
+    filename = Column(String, nullable=False)
+    stored_filename = Column(String, nullable=False, unique=True)
+    status = Column(String, nullable=False, default="processing")
+    page_count = Column(Integer, default=0)
+    chunk_count = Column(Integer, default=0)
+    error_message = Column(Text, nullable=True)
+    created_at = Column(DateTime, nullable=False)
+
+    chunks = relationship("ReportChunk", back_populates="document", cascade="all, delete-orphan")
+
+
+class ReportChunk(Base):
+    __tablename__ = "historical_report_chunks"
+
+    id = Column(Integer, primary_key=True, index=True)
+    document_id = Column(Integer, ForeignKey("historical_reports.id"), nullable=False, index=True)
+    page_number = Column(Integer, nullable=False)
+    section_title = Column(String, nullable=True)
+    well = Column(String, nullable=True)
+    depth = Column(Float, nullable=True)
+    text = Column(Text, nullable=False)
+    metadata_json = Column(JSON, nullable=False, default=dict)
+    extracted_json = Column(JSON, nullable=False, default=dict)
+    embedding = Column(JSON, nullable=False)
+
+    document = relationship("HistoricalReport", back_populates="chunks")

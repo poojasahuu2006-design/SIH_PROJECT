@@ -8,3 +8,9 @@ pydantic-settings
 python-dotenv
 pandas
 shapely
+pypdf
+python-multipart
+sentence-transformers
+pymupdf
+pytesseract
+Pillow
