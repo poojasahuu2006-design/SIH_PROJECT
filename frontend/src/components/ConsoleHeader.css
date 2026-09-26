@@ -134,6 +134,26 @@
   cursor: pointer;
 }
 
+.console-header__config {
+  background: var(--panel-raised, #1f242d);
+  border: 1px solid var(--hairline, rgba(255, 255, 255, 0.1));
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  color: var(--bone, #f0f4f8);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s ease;
+}
+
+.console-header__config:hover {
+  border-color: var(--teal, #3fbf9e);
+  color: var(--teal, #3fbf9e);
+}
+
 .console-header__retry:hover {
   border-color: var(--amber);
   color: var(--amber);

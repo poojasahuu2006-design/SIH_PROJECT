@@ -2,6 +2,8 @@ import "./ConsoleHeader.css";
 
 export default function ConsoleHeader({
   status,
+  baseUrl,
+  onUpdateBaseUrl,
   onRetry,
   activeView = "map",
   onViewChange,
@@ -45,6 +47,21 @@ export default function ConsoleHeader({
           {status === "error" && "Unreachable"}
           {status === "idle" && "Idle"}
         </span>
+        <button
+          className="console-header__config"
+          title={`Connected API: ${baseUrl || "Not set"}. Click to change backend URL.`}
+          onClick={() => {
+            const promptVal = window.prompt(
+              "Enter Backend API URL (e.g. https://oildrill-backend.onrender.com):",
+              baseUrl || ""
+            );
+            if (promptVal !== null && promptVal.trim() && onUpdateBaseUrl) {
+              onUpdateBaseUrl(promptVal.trim());
+            }
+          }}
+        >
+          ⚙️ API URL
+        </button>
         {status === "error" && (
           <button className="console-header__retry" onClick={onRetry}>
             Retry

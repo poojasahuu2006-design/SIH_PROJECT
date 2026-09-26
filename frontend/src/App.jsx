@@ -15,12 +15,19 @@ import {
   fetchDrillingData,
   generateMockPredictiveAlerts,
   getStoredBaseUrl,
+  setStoredBaseUrl,
 } from "./api";
 import "./App.css";
 
 export default function App() {
-  const [baseUrl] = useState(getStoredBaseUrl);
+  const [baseUrl, setBaseUrl] = useState(getStoredBaseUrl);
   const [connectionStatus, setConnectionStatus] = useState("idle"); // idle | loading | ok | error
+
+  const handleUpdateBaseUrl = (newUrl) => {
+    const cleanUrl = newUrl.trim().replace(/\/$/, "");
+    setStoredBaseUrl(cleanUrl);
+    setBaseUrl(cleanUrl);
+  };
 
   const [activeView, setActiveView] = useState("map"); // map | alerts | kpis | charts | pressure
 
@@ -115,6 +122,8 @@ export default function App() {
     <div className="app">
       <ConsoleHeader
         status={connectionStatus}
+        baseUrl={baseUrl}
+        onUpdateBaseUrl={handleUpdateBaseUrl}
         onRetry={() => loadWells(baseUrl)}
         activeView={activeView}
         onViewChange={setActiveView}
@@ -186,7 +195,9 @@ export default function App() {
         </div>
       )}
 
-      {activeView === "historical" && <HistoricalReportsPanel baseUrl={baseUrl} />}
+      {activeView === "historical" && (
+        <HistoricalReportsPanel baseUrl={baseUrl} onUpdateBaseUrl={handleUpdateBaseUrl} />
+      )}
     </div>
   );
 }

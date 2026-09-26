@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { askHistoricalReports, fetchHistoricalReports, uploadHistoricalReport } from "../api";
 import "./HistoricalReportsPanel.css";
 
-export default function HistoricalReportsPanel({ baseUrl }) {
+export default function HistoricalReportsPanel({ baseUrl, onUpdateBaseUrl }) {
   const [reports, setReports] = useState([]);
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState(null);
@@ -54,7 +54,28 @@ export default function HistoricalReportsPanel({ baseUrl }) {
         <label className="historical-upload">Upload PDF<input type="file" accept="application/pdf,.pdf" onChange={handleUpload} /></label>
       </div>
       <div className="historical-panel__status"><span className={`status-dot status-dot--${status}`} />{status === "processing" ? "Processing report" : status === "searching" ? "Searching evidence" : status === "answered" ? "Answer ready" : "Ready"}</div>
-      {error && <div className="historical-error">{error}</div>}
+      {error && (
+        <div className="historical-error">
+          <span>{error}</span>
+          {onUpdateBaseUrl && (
+            <button
+              type="button"
+              className="historical-error__btn"
+              onClick={() => {
+                const entered = window.prompt(
+                  "Enter Backend API URL (e.g. https://oildrill-backend.onrender.com):",
+                  baseUrl || ""
+                );
+                if (entered !== null && entered.trim()) {
+                  onUpdateBaseUrl(entered.trim());
+                }
+              }}
+            >
+              ⚙️ Change Backend URL
+            </button>
+          )}
+        </div>
+      )}
       <div className="historical-grid">
         <section className="historical-card">
           <span className="eyebrow">Ask the archive</span>

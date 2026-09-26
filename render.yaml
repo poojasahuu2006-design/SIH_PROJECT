@@ -36,7 +36,4 @@ services:
         destination: /index.html
     envVars:
       - key: VITE_API_BASE_URL
-        fromService:
-          type: web
-          name: oildrill-backend
-          property: host
+        sync: false

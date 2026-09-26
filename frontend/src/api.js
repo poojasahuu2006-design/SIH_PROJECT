@@ -8,19 +8,52 @@
 // treats fields defensively (see src/lib/pick.js) rather than assuming exact
 // key names from the Swagger docs.
 
-const RAW_API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000").trim();
-const DEFAULT_BASE_URL = RAW_API_BASE_URL.startsWith("http://") || RAW_API_BASE_URL.startsWith("https://")
-  ? RAW_API_BASE_URL
-  : `https://${RAW_API_BASE_URL}`;
-
 const STORAGE_KEY = "oildrill.apiBaseUrl";
+
+export function resolveDefaultBaseUrl() {
+  const envVal = (import.meta.env.VITE_API_BASE_URL || "").trim();
+
+  // If explicitly configured with a full URL:
+  if (envVal.startsWith("http://") || envVal.startsWith("https://")) {
+    try {
+      const parsed = new URL(envVal);
+      // If it's a private Render hostname like https://oildrill-backend (no dot in hostname)
+      if (
+        !parsed.hostname.includes(".") &&
+        typeof window !== "undefined" &&
+        window.location?.hostname?.includes("onrender.com")
+      ) {
+        const candidate = window.location.hostname.replace("oildrill-frontend", "oildrill-backend");
+        return `https://${candidate}`;
+      }
+      return envVal;
+    } catch {
+      return envVal;
+    }
+  }
+
+  // If envVal is just a domain like "oildrill-backend.onrender.com"
+  if (envVal && envVal.includes(".")) {
+    return `https://${envVal}`;
+  }
+
+  // If running in browser on Render with default names
+  if (typeof window !== "undefined" && window.location?.hostname?.includes("onrender.com")) {
+    const candidate = window.location.hostname.replace("oildrill-frontend", "oildrill-backend");
+    return `https://${candidate}`;
+  }
+
+  return "http://127.0.0.1:8000";
+}
 
 export function getStoredBaseUrl() {
   try {
-    return localStorage.getItem(STORAGE_KEY) || DEFAULT_BASE_URL;
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored && stored.trim()) return stored.trim();
   } catch {
-    return DEFAULT_BASE_URL;
+    // ignore
   }
+  return resolveDefaultBaseUrl();
 }
 
 export function setStoredBaseUrl(url) {
