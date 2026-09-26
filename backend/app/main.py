@@ -4,25 +4,45 @@ from dotenv import load_dotenv
 import os
 from sqlalchemy import text
 
+import time
+from contextlib import asynccontextmanager
+
 from .database import engine, Base
 from .routes import wells, events, drilling, reports
 
 load_dotenv()
 
-# Ensure PostGIS extension is active, then create database tables
-try:
-    with engine.connect() as conn:
-        conn.execution_options(isolation_level="AUTOCOMMIT")
-        conn.execute(text("CREATE EXTENSION IF NOT EXISTS postgis;"))
-except Exception as e:
-    print(f"PostGIS extension check warning: {e}")
 
-Base.metadata.create_all(bind=engine)
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Retry database initialization as database may take a few moments to accept connections on cold start
+    max_retries = 8
+    for attempt in range(1, max_retries + 1):
+        try:
+            print(f"Connecting to database (attempt {attempt}/{max_retries})...")
+            with engine.connect() as conn:
+                conn.execution_options(isolation_level="AUTOCOMMIT")
+                try:
+                    conn.execute(text("CREATE EXTENSION IF NOT EXISTS postgis;"))
+                except Exception as ext_err:
+                    print(f"PostGIS extension notice: {ext_err}")
+            Base.metadata.create_all(bind=engine)
+            print("Database connected and schema initialized successfully.")
+            break
+        except Exception as e:
+            print(f"Database connection attempt {attempt} failed: {e}")
+            if attempt < max_retries:
+                time.sleep(3)
+            else:
+                print("Proceeding with server startup; database schema initialization deferred.")
+    yield
+
 
 app = FastAPI(
     title="Nearby Wells Intelligence System API",
     description="Backend API for drilling risk prediction and offset well intelligence.",
-    version="1.0.0"
+    version="1.0.0",
+    lifespan=lifespan
 )
 
 # CORS Configuration
@@ -46,3 +66,7 @@ app.include_router(reports.router, prefix="/api", tags=["Historical Reports Inte
 @app.get("/")
 def read_root():
     return {"message": "Welcome to the Nearby Wells Intelligence System API. Visit /docs for documentation."}
+
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
