@@ -230,19 +230,30 @@ class ApiError extends Error {
   }
 }
 
-async function request(baseUrl, path) {
+async function request(baseUrl, path, timeoutMs = 15000) {
   const url = `${baseUrl.replace(/\/$/, "")}${path}`;
   let res;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+
   try {
-    res = await fetch(url, { headers: { Accept: "application/json" } });
+    res = await fetch(url, {
+      headers: { Accept: "application/json" },
+      signal: controller.signal,
+    });
   } catch (err) {
-    // Most likely causes on a LAN backend: host unreachable, wrong IP/port,
-    // or the backend hasn't enabled CORS for this origin.
+    clearTimeout(timer);
+    const isTimeout = err.name === "AbortError";
     throw new ApiError(
-      `Could not reach ${url}. Check the backend is running, the IP/port is correct, and CORS is enabled for this origin.`,
+      isTimeout
+        ? `Request timed out after 15s reaching ${url}. Check if oildrill-backend is active on Render.`
+        : `Could not reach ${url}. Check the backend is running, the IP/port is correct, and CORS is enabled for this origin.`,
       { cause: err }
     );
+  } finally {
+    clearTimeout(timer);
   }
+
   if (!res.ok) {
     const body = await res.text().catch(() => "");
     throw new ApiError(`${res.status} ${res.statusText} on ${path}${body ? ` — ${body}` : ""}`, {
@@ -252,14 +263,35 @@ async function request(baseUrl, path) {
   return res.json();
 }
 
-async function requestJson(baseUrl, path, options = {}) {
+async function requestJson(baseUrl, path, options = {}, timeoutMs = 20000) {
   const url = `${baseUrl.replace(/\/$/, "")}${path}`;
-  const res = await fetch(url, { ...options, headers: { Accept: "application/json", ...(options.headers || {}) } });
-  if (!res.ok) {
-    const body = await res.text().catch(() => "");
-    throw new ApiError(`${res.status} ${res.statusText} on ${path}${body ? ` — ${body}` : ""}`, { status: res.status });
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    const res = await fetch(url, {
+      ...options,
+      headers: { Accept: "application/json", ...(options.headers || {}) },
+      signal: controller.signal,
+    });
+    if (!res.ok) {
+      const body = await res.text().catch(() => "");
+      throw new ApiError(`${res.status} ${res.statusText} on ${path}${body ? ` — ${body}` : ""}`, { status: res.status });
+    }
+    return res.json();
+  } catch (err) {
+    clearTimeout(timer);
+    if (err instanceof ApiError) throw err;
+    const isTimeout = err.name === "AbortError";
+    throw new ApiError(
+      isTimeout
+        ? `Request timed out after 20s reaching ${url}.`
+        : `Could not reach ${url}.`,
+      { cause: err }
+    );
+  } finally {
+    clearTimeout(timer);
   }
-  return res.json();
 }
 
 export function fetchHistoricalReports(baseUrl) {
