@@ -24,8 +24,9 @@ services:
         value: 3.11.9
 
   # Frontend Application (React + Vite SPA)
-  - type: static
+  - type: web
     name: oildrill-frontend
+    runtime: static
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: ./dist
