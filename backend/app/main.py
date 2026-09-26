@@ -2,13 +2,21 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 import os
+from sqlalchemy import text
 
 from .database import engine, Base
 from .routes import wells, events, drilling, reports
 
 load_dotenv()
 
-# Create database tables
+# Ensure PostGIS extension is active, then create database tables
+try:
+    with engine.connect() as conn:
+        conn.execution_options(isolation_level="AUTOCOMMIT")
+        conn.execute(text("CREATE EXTENSION IF NOT EXISTS postgis;"))
+except Exception as e:
+    print(f"PostGIS extension check warning: {e}")
+
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(

@@ -8,8 +8,10 @@
 // treats fields defensively (see src/lib/pick.js) rather than assuming exact
 // key names from the Swagger docs.
 
-const DEFAULT_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000";
+const RAW_API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000").trim();
+const DEFAULT_BASE_URL = RAW_API_BASE_URL.startsWith("http://") || RAW_API_BASE_URL.startsWith("https://")
+  ? RAW_API_BASE_URL
+  : `https://${RAW_API_BASE_URL}`;
 
 const STORAGE_KEY = "oildrill.apiBaseUrl";
 
